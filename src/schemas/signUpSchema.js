@@ -1,9 +1,9 @@
 import joi from "joi";
 
 const signUpSchema = joi.object({
+  // .pattern(/^[a-zA-Z\s]*$/)
   name: joi
     .string()
-    .pattern(/^[a-zA-Z\s]*$/)
     .required(), // Only accepts upper or lower case letters or blank spaces
 
   email: joi.string().email().required(),
