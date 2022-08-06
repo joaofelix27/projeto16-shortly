@@ -17,6 +17,13 @@ export function addVisitCount(visitCount,shortUrl) {
     `UPDATE urls SET "visitCount"=$1 WHERE "shortUrl"=$2;`,[visitCount+1,shortUrl]
   );
 }
+export function getMyShortenUrl (userId){
+  return connection.query(
+    `SELECT users.id as id,users.name as name,SUM("visitCount") as "visitCount"
+    , json_agg(json_build_object('id',urls.id,'shortUrl', urls."shortUrl",'url',urls.url,'visitCount',urls."visitCount")) AS shortenedUrl
+FROM urls JOIN users ON users.id="userId" WHERE "userId"=${userId} GROUP BY users.id; ;`
+  );
+}
 export function deleteUrls (id) {
     return connection.query(`DELETE FROM urls WHERE id=$1;`,[id]);
 }

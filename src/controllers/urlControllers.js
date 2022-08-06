@@ -1,6 +1,5 @@
-import connection from "../db/postgres.js";
 import { nanoid } from "nanoid";
-import { addVisitCount, deleteUrls, getShortUrls, getUrls, insertShortUrl } from "../repositories/urlRepository.js";
+import { addVisitCount, deleteUrls, getMyShortenUrl, getShortUrls, getUrls, insertShortUrl } from "../repositories/urlRepository.js";
 
 export async function urlsPost(req, res) {
   const { url } = req.body;
@@ -67,14 +66,10 @@ export async function deleteUrlById(req, res) {
 export async function getMineShortenUrl(req, res) {
   const userId=req?.userId
   try {
-    const { rows: findUrl } = await connection.query(
-      `SELECT users.id as id,users.name as name,SUM("visitCount") as "visitCount" FROM urls JOIN users ON users.id="userId" WHERE "userId"=${userId} GROUP BY users.id ;`
-    );
-    const {rows:findUrlById}= await connection.query(`SELECT urls.id as id, "shortUrl",url, "visitCount" FROM urls WHERE "userId"=${userId} ORDER BY urls.id `)
+    const { rows: findUrl } = await getMyShortenUrl(userId)
     const findUrlLength = findUrl.length;
     if (findUrlLength === 1) {
-      const response= {... findUrl[0], shortenedUrls: findUrlById}
-      return res.status(200).send(response)
+      return res.status(200).send(findUrl[0])
     } else {
       return res.sendStatus(404);
     }
