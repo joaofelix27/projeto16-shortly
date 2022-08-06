@@ -16,7 +16,6 @@ export default async function validateUser(req, res, next) {
     }
     // se tudo estiver ok, salva no request para uso posterior
     req.userId = decoded.id;
-    console.log(req.userId)
     //Qual a diferença de salvar no res.locals?
     next();
   });

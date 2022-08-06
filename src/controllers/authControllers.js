@@ -34,7 +34,7 @@ export async function signIn (req,res){
             return res.sendStatus(401)
         }
         const token = jsonwebtoken.sign({ id }, process.env.SECRET, {
-            expiresIn: 300 // expires in 5min
+            expiresIn: 1200 // expires in 5min
           });
         res.status(200).json({ auth: true, token: token });
     } catch (e){

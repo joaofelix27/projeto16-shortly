@@ -76,3 +76,21 @@ export async function deleteUrlById(req, res) {
     res.status(500).send(e.message);
   }
 }
+export async function getMineShortenUrl(req, res) {
+  const userId=req?.userId
+  try {
+    const { rows: findUrl } = await connection.query(
+      `SELECT users.id as id,users.name as name,SUM("visitCount") as "visitCount" FROM urls JOIN users ON users.id="userId" WHERE "userId"=${userId} GROUP BY users.id ;`
+    );
+    const {rows:findUrlById}= await connection.query(`SELECT urls.id as id, "shortUrl",url, "visitCount" FROM urls WHERE "userId"=${userId}`)
+    const findUrlLength = findUrl.length;
+    if (findUrlLength === 1) {
+      const response= {... findUrl[0], shortenedUrls: findUrlById}
+      return res.status(200).send(response)
+    } else {
+      return res.sendStatus(404);
+    }
+  } catch (e) {
+    res.status(500).send(e.message);
+  }
+}
