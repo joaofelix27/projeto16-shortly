@@ -82,7 +82,7 @@ export async function getMineShortenUrl(req, res) {
     const { rows: findUrl } = await connection.query(
       `SELECT users.id as id,users.name as name,SUM("visitCount") as "visitCount" FROM urls JOIN users ON users.id="userId" WHERE "userId"=${userId} GROUP BY users.id ;`
     );
-    const {rows:findUrlById}= await connection.query(`SELECT urls.id as id, "shortUrl",url, "visitCount" FROM urls WHERE "userId"=${userId}`)
+    const {rows:findUrlById}= await connection.query(`SELECT urls.id as id, "shortUrl",url, "visitCount" FROM urls WHERE "userId"=${userId} ORDER BY urls.id `)
     const findUrlLength = findUrl.length;
     if (findUrlLength === 1) {
       const response= {... findUrl[0], shortenedUrls: findUrlById}
