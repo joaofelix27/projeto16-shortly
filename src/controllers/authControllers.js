@@ -26,6 +26,7 @@ export async function signIn (req,res){
     try{
         const {rows:findEmail}=  await getUsers(email)
         const findEmailLength=findEmail.length
+        const nameFromDB= findEmail[0]?.name
         const passwordFromDB= findEmail[0]?.password
         const id=findEmail[0]?.id
         if(passwordFromDB){
@@ -37,7 +38,7 @@ export async function signIn (req,res){
         const token = jsonwebtoken.sign({ id }, process.env.SECRET, {
             expiresIn: 1200 
           });
-        res.status(200).json({ auth: true, token: token });
+        res.status(200).json({ auth: true, token: token, name:nameFromDB });
     } catch (e){
         res.status(500).send(e.message)
     }
