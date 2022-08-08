@@ -77,3 +77,4 @@ export async function getMineShortenUrl(req, res) {
     res.status(500).send(e.message);
   }
 }
+  
