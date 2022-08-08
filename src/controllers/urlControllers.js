@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-import { addVisitCount, deleteUrls, getMyShortenUrl, getShortUrls, getUrls, insertShortUrl } from "../repositories/urlRepository.js";
+import { addVisitCount, deleteUrls, getMyShortenUrl, getShortUrls, getUrls, getUrlsWithUserId, insertShortUrl } from "../repositories/urlRepository.js";
 
 export async function urlsPost(req, res) {
   const { url } = req.body;
@@ -46,7 +46,7 @@ export async function deleteUrlById(req, res) {
   const { id } = req.params;
   const userId = req.userId;
   try {
-    const { rows: findUrl } = await getUrls(id)
+    const { rows: findUrl } = await getUrlsWithUserId(id)
     const findUrlLength = findUrl.length;
     if (findUrlLength === 1) {
       const userIdDb = findUrl[0]?.userId;

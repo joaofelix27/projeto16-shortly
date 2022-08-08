@@ -23,6 +23,9 @@ export function getMyShortenUrl (userId){
     , COALESCE(json_agg(json_build_object('id',urls.id,'shortUrl', urls."shortUrl",'url',urls.url,'visitCount',urls."visitCount")) FILTER (WHERE urls.id IS NOT NULL),'[]'::json) AS shortenedUrl
 FROM users LEFT JOIN urls ON users.id=urls."userId" WHERE users.id=$1  GROUP BY users.id;`,[userId]);
 }
+export function getUrlsWithUserId(id) {
+  return connection.query(`SELECT id,"shortUrl",url,"userId" from urls WHERE id=$1;`,[id]);
+}
 //Colocar bin params
 export function deleteUrls (id) {
     return connection.query(`DELETE FROM urls WHERE id=$1;`,[id]);
