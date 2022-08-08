@@ -54,7 +54,7 @@ export async function deleteUrlById(req, res) {
         await deleteUrls(id)
         return res.sendStatus(204);
       } else {
-        return res.sendStatus(401);
+        return res.status(401).json({id,userId});
       }
     } else {
       return res.sendStatus(404);
