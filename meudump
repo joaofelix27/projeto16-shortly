@@ -114,7 +114,6 @@ ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_
 --
 
 COPY public.urls (id, url, "shortUrl", "visitCount", "userId", "createdAt") FROM stdin;
-3	https://ge.globo.com/	0bd-FaICOAscM5IAju6gd	5	1	2022-08-07 21:07:35.444848
 \.
 
 
@@ -123,8 +122,6 @@ COPY public.urls (id, url, "shortUrl", "visitCount", "userId", "createdAt") FROM
 --
 
 COPY public.users (id, name, email, password, "createdAt") FROM stdin;
-1	thomas	joaofelix290@gmail.com	$2b$10$vD29gpkTuqU9A5UtjMFBAuBc.fW9olIWd.H/awbniR/x/XpgI.sme	2022-08-07 21:02:56.945909
-2	thomas	joaofelix291@gmail.com	$2b$10$/RJyiZCaN4XA9IH4s3MAoe4s4LPAAw.eI4NaDmk4mOfgJI8QzAmoy	2022-08-07 21:10:13.42893
 \.
 
 
@@ -132,14 +129,14 @@ COPY public.users (id, name, email, password, "createdAt") FROM stdin;
 -- Name: urls_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.urls_id_seq', 3, true);
+SELECT pg_catalog.setval('public.urls_id_seq', 1, false);
 
 
 --
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 3, true);
+SELECT pg_catalog.setval('public.users_id_seq', 1, false);
 
 
 --
