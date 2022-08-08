@@ -7,7 +7,7 @@ export function insertShortUrl(url,shortUrl,userId) {
   );
 }
 export function getUrls(id) {
-  return connection.query(`SELECT id,urls."shortUrl",url from urls WHERE id=$1;`,[id]);
+  return connection.query(`SELECT id,"shortUrl",url from urls WHERE id=$1;`,[id]);
 }
 export function getShortUrls(shortUrl) {
   return connection.query(`SELECT * from urls WHERE "shortUrl"=$1;`, [shortUrl]);
