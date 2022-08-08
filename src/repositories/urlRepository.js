@@ -19,11 +19,11 @@ export function addVisitCount(visitCount,shortUrl) {
 }
 export function getMyShortenUrl (userId){
   return connection.query(
-    `SELECT users.id as id,users.name as name,SUM("visitCount") as "visitCount"
-    , json_agg(json_build_object('id',urls.id,'shortUrl', urls."shortUrl",'url',urls.url,'visitCount',urls."visitCount")) AS shortenedUrl
-FROM urls JOIN users ON users.id="userId" WHERE "userId"=${userId} GROUP BY users.id; ;`
-  );
+    `SELECT users.id as id,users.name as name,COALESCE(SUM(urls."visitCount"),0) as "visitCount"
+    , COALESCE(json_agg(json_build_object('id',urls.id,'shortUrl', urls."shortUrl",'url',urls.url,'visitCount',urls."visitCount")) FILTER (WHERE urls.id IS NOT NULL),'[]'::json) AS shortenedUrl
+FROM users LEFT JOIN urls ON users.id=urls."userId" WHERE users.id=$1  GROUP BY users.id;`,[userId]);
 }
+//Colocar bin params
 export function deleteUrls (id) {
     return connection.query(`DELETE FROM urls WHERE id=$1;`,[id]);
 }
